@@ -21,8 +21,6 @@ class TodoApp extends React.Component {
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        // this.uri = 'http://127.0.0.1:3000/tasks'
-        this.uri = 'https://fivexruby-server.heokuapp.com/tasks';
     }
 
     componentWillMount() {
@@ -30,14 +28,14 @@ class TodoApp extends React.Component {
     }
 
     refreshTasks() {
+        const uri = 'https://fivexruby-server.heokuapp.com/tasks'
         function handleErrors(response) {
             if (!response.ok) {
                 throw Error(response.statusText);
             }
             return response;
         }
-
-        fetch(this.uri, {
+        fetch(uri, {
             method: 'get'
         })
             .then(handleErrors)
@@ -100,7 +98,8 @@ class TodoApp extends React.Component {
         // this.updateLocalStorage(updatedList);
 
         if (task !== '') {
-            fetch(this.uri, {
+            const uri = 'https://fivexruby-server.heokuapp.com/tasks'
+            fetch(uri, {
                 method: 'post',
                 headers: {
                     "Content-Type": "application/json",
@@ -144,7 +143,8 @@ class TodoApp extends React.Component {
         // this.setState({ tasks: updatedList });
         // this.updateLocalStorage(updatedList);
 
-        fetch(this.uri + task_id, {
+        const uri = `https://fivexruby-server.heokuapp.com/tasks/${task_id}`
+        fetch(uri, {
             method: 'delete',
             headers: {
                 "Content-Type": "application/json",
@@ -172,6 +172,8 @@ class TodoApp extends React.Component {
         // this.setState({ tasks: updatedList });
         // this.updateLocalStorage(updatedList);
 
+        const uri = `https://fivexruby-server.heokuapp.com/tasks/${task_id}`
+        console.log(uri)
         function handleErrors(response) {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -180,7 +182,7 @@ class TodoApp extends React.Component {
         }
 
 
-        fetch(this.uri + task_id, {
+        fetch(uri, {
             method: 'get'
         })
             .then(handleErrors)
@@ -201,11 +203,12 @@ class TodoApp extends React.Component {
             })
             .then(
                 setTimeout(() => {
+                    console.log(this.state.currentTask)
                     var data = this.state.currentTask
 
                     data.status == 'passive' ?
                         data.status = 'active' : data.status = 'passive'
-                    fetch(this.uri + task_id, {
+                    fetch(uri, {
                         method: 'put',
                         headers: {
                             "Content-Type": "application/json",
