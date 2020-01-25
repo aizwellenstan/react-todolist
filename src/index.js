@@ -156,7 +156,7 @@ class TodoApp extends React.Component {
                 }),
                 setTimeout(() => {
                     this.refreshTasks()
-                }, 100)
+                }, 1000)
             )
     }
 
@@ -218,7 +218,7 @@ class TodoApp extends React.Component {
                             data
                         )
                     })
-                }, 100)
+                }, 1000)
             )
             .then(
                 this.setState({
