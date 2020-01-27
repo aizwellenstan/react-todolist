@@ -9,8 +9,8 @@ export class Login extends React.Component {
         })
         this.doLogin = this.doLogin.bind(this);
         this.doRegister = this.doRegister.bind(this);
-        // this.uri = 'http://127.0.0.1:3000/'
-        this.uri = 'https://fivexruby-server.herokuapp.com/'
+        this.uri = 'http://127.0.0.1:3000/'
+        // this.uri = 'https://fivexruby-server.herokuapp.com/'
     }
 
     doLogin() {

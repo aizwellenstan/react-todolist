@@ -19,12 +19,14 @@ class TodoApp extends React.Component {
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        // this.uri = 'http://127.0.0.1:3000/tasks/'
-        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        this.uri = 'http://127.0.0.1:3000/tasks/'
+        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
-        this.refreshTasks()
+        if (localStorage.getItem('login')) {
+            this.refreshTasks()
+        }
     }
 
     refreshTasks() {
@@ -35,7 +37,10 @@ class TodoApp extends React.Component {
             return response;
         }
 
+        let userName = JSON.parse(localStorage.getItem('login')).userName
+
         fetch(this.uri, {
+            headers: { 'username': userName },
             method: 'get'
         })
             .then(handleErrors)
@@ -93,6 +98,7 @@ class TodoApp extends React.Component {
 
     addTask(task) {
         if (task !== '') {
+            let userName = this.state.userSession.userName
             fetch(this.uri, {
                 method: 'post',
                 headers: {
@@ -100,7 +106,7 @@ class TodoApp extends React.Component {
                     Accept: "application/json",
                 },
                 body: JSON.stringify(
-                    { text: task, status: 'onhand' }
+                    { text: task, status: 'onhand', username: userName }
                 )
             })
                 .then(
@@ -157,8 +163,10 @@ class TodoApp extends React.Component {
             return response;
         }
 
+        let userName = JSON.parse(localStorage.getItem('login')).userName
 
         fetch(this.uri + task_id, {
+            headers: { 'username': userName },
             method: 'get'
         })
             .then(handleErrors)
@@ -188,6 +196,7 @@ class TodoApp extends React.Component {
                         headers: {
                             "Content-Type": "application/json",
                             Accept: "application/json",
+                            userName: userName
                         },
                         headers: {
                             "Content-Type": "application/json",
@@ -197,7 +206,7 @@ class TodoApp extends React.Component {
                             data
                         )
                     })
-                }, 1000)
+                }, 500)
             )
             .then(
                 this.setState({
@@ -205,7 +214,7 @@ class TodoApp extends React.Component {
                 }),
                 setTimeout(() => {
                     this.refreshTasks()
-                }, 200)
+                }, 1000)
             )
             .catch(function (err) {
                 console.log(err)
