@@ -206,7 +206,7 @@ class TodoApp extends React.Component {
                             data
                         )
                     })
-                }, 500)
+                }, 1000)
             )
             .then(
                 this.setState({
@@ -214,7 +214,7 @@ class TodoApp extends React.Component {
                 }),
                 setTimeout(() => {
                     this.refreshTasks()
-                }, 1000)
+                }, 2000)
             )
             .catch(function (err) {
                 console.log(err)
