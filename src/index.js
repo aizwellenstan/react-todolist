@@ -18,8 +18,8 @@ class TodoApp extends React.Component {
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        this.uri = 'http://127.0.0.1:3000/tasks/'
-        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        // this.uri = 'http://127.0.0.1:3000/tasks/'
+        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
