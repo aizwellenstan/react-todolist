@@ -12,15 +12,14 @@ class TodoApp extends React.Component {
         super();
         this.state = {
             userSession: TodoApp.getUserSessionData(),
-            tasks: [],
-            currentTask: ''
+            tasks: []
         };
         this.addTask = this.addTask.bind(this);
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        // this.uri = 'http://127.0.0.1:3000/tasks/'
-        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        this.uri = 'http://127.0.0.1:3000/tasks/'
+        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
@@ -180,17 +179,8 @@ class TodoApp extends React.Component {
             .then(res => {
                 if (res.data) {
                     delete res.data.id
-                    this.setState({
-                        currentTask: res.data
-                    });
-                }
-            })
-            .then(
-                setTimeout(() => {
-                    var data = this.state.currentTask
-
-                    data.status == 'passive' ?
-                        data.status = 'active' : data.status = 'passive'
+                    res.data.status == 'passive' ?
+                        res.data.status = 'active' : res.data.status = 'passive'
                     fetch(this.uri + task_id, {
                         method: 'put',
                         headers: {
@@ -203,18 +193,18 @@ class TodoApp extends React.Component {
                             Accept: "application/json",
                         },
                         body: JSON.stringify(
-                            data
+                            res.data
                         )
                     })
-                }, 1000)
-            )
+                }
+            })
             .then(
                 this.setState({
                     tasks: []
                 }),
                 setTimeout(() => {
                     this.refreshTasks()
-                }, 2000)
+                }, 1000)
             )
             .catch(function (err) {
                 console.log(err)
