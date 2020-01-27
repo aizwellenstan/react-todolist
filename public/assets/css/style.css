@@ -108,11 +108,11 @@ input:focus, textarea:focus, select:focus, button:focus {
     border-radius: 10px;
     margin: 20px 0 20px 0;
     background-color: #fff;
-    overflow: hidden;
+    /* overflow: hidden; */
     -webkit-box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.1); }
   .wrapper .content .todo {
-    height: 100px;
+    height: 200px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -194,7 +194,8 @@ input:focus, textarea:focus, select:focus, button:focus {
           overflow: hidden;
           -webkit-box-flex: 0;
           -ms-flex: 0 0 65%;
-          flex: 0 0 65%; }
+          /* flex: 0 0 65%;  */
+        }
         .wrapper .content .todo-list ul li .id {
           color: #B2B2B2;
           font-size: 12px; }

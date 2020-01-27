@@ -7,17 +7,29 @@ import { TodoForm } from './todoForm';
 import { TodoList } from './todoList';
 import { Login } from './login';
 
+import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
+// import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrandアイコンのインポート
+import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolidアイコンのインポート
+import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+library.add(fas, far); //他のコンポーネントから簡単に呼び出せるようにするための登録処理？
+
+
+
 class TodoApp extends React.Component {
     constructor() {
         super();
         this.state = {
             userSession: TodoApp.getUserSessionData(),
-            tasks: []
+            tasks: [],
+            sort: 'end_time ASC'
         };
         this.addTask = this.addTask.bind(this);
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
+        this.sortTask = this.sortTask.bind(this);
         // this.uri = 'http://127.0.0.1:3000/tasks/'
         this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
@@ -26,6 +38,15 @@ class TodoApp extends React.Component {
         if (localStorage.getItem('login')) {
             this.refreshTasks()
         }
+    }
+
+    sortTask(sort) {
+        this.setState({
+            sort: sort
+        })
+        setTimeout(() => {
+            this.refreshTasks()
+        }, 1000)
     }
 
     refreshTasks() {
@@ -38,7 +59,7 @@ class TodoApp extends React.Component {
 
         let userName = JSON.parse(localStorage.getItem('login')).userName
 
-        fetch(this.uri, {
+        fetch(`${this.uri}?sort=${this.state.sort}`, {
             headers: { 'username': userName },
             method: 'get'
         })
@@ -95,7 +116,7 @@ class TodoApp extends React.Component {
         localStorage.setItem('login', loginData);
     }
 
-    addTask(task) {
+    addTask(task, start, end) {
         if (task !== '') {
             let userName = this.state.userSession.userName
             fetch(this.uri, {
@@ -105,7 +126,13 @@ class TodoApp extends React.Component {
                     Accept: "application/json",
                 },
                 body: JSON.stringify(
-                    { text: task, status: 'onhand', username: userName }
+                    {
+                        text: task,
+                        status: 'onhand',
+                        username: userName,
+                        start_time: start,
+                        end_time: end
+                    }
                 )
             })
                 .then(
@@ -202,10 +229,24 @@ class TodoApp extends React.Component {
                 <div>
                     <Header loginData={TodoApp.getUserSessionData} />
                     <TodoForm addTask={this.addTask} />
+                    <br />
+                    <center>
+                        <div style={{ marginTop: 1 + 'em' }}>
+                            Sort By
+                            <br />
+                            TimeEnd&nbsp;
+                            <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('end_time ASC') }} icon={['fas', 'arrow-up']} />
+                            <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('end_time DESC') }} icon={['fas', 'arrow-down']} />
+                            <br />
+                            TimeStart&nbsp;
+                            <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('start_time ASC') }} icon={['fas', 'arrow-up']} />
+                            <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('start_time DESC') }} icon={['fas', 'arrow-down']} />
+                        </div>
+                    </center>
                     <TodoList myList={this.state.tasks} addTask={this.addTask} removeTask={this.removeTask}
                         doneTask={this.doneTask} />
                     <Footer />
-                </div>
+                </div >
             );
         }
         return (

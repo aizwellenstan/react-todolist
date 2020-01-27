@@ -19,7 +19,7 @@ export class Header extends React.Component {
                     <img src="" alt="" />
                 </div>
                 &nbsp;
-                <button onClick={handleClick}>ログアウト</button>
+                <button style={{ cursor: 'pointer' }} onClick={handleClick}>ログアウト</button>
             </div>
         );
         return (

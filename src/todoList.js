@@ -56,10 +56,23 @@ export class TodoList extends React.Component {
                     <li key={i} id={i} className={elem.status}>
                         <span className="id">{i + 1}</span>
                         <span className="title">{elem.text}</span>
+                        <span className="title">{`
+                            ${new Date(elem.start_time).getHours()}:
+                            ${new Date(elem.start_time).getMinutes() != '0' ?
+                                new Date(elem.start_time).getMinutes() : '00'
+                            }
+                        `}
+                        </span>-
+                        <span className="title">{`
+                            ${new Date(elem.end_time).getHours()}:
+                            ${new Date(elem.end_time).getMinutes() != '0' ?
+                                new Date(elem.end_time).getMinutes() : '00'
+                            }
+                        `}
+                        </span>
                         <span className="type" onClick={this.done} />
                         <span className="delete" onClick={this.remove}></span>
                     </li>
-
                 )
             }
         });
