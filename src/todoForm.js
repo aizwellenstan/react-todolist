@@ -1,8 +1,6 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
-
 export class TodoForm extends React.Component {
     constructor() {
         super();
