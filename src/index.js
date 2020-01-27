@@ -18,8 +18,8 @@ class TodoApp extends React.Component {
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        // this.uri = 'http://127.0.0.1:3000/tasks/'
-        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        this.uri = 'http://127.0.0.1:3000/tasks/'
+        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
@@ -162,42 +162,24 @@ class TodoApp extends React.Component {
             return response;
         }
 
-        let userName = JSON.parse(localStorage.getItem('login')).userName
+        let task = this.state.tasks[task_id]
+        task.status == 'passive' ?
+            task.status = 'active' : task.status = 'passive'
 
-        fetch(this.uri + task_id, {
-            headers: { 'username': userName },
-            method: 'get'
-        })
-            .then(handleErrors)
-            .then(
-                response =>
-                    response.json().then(data => ({
-                        data: data,
-                        status: response.status
-                    }))
+        fetch(this.uri + task.id, {
+            method: 'put',
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(
+                task
             )
-            .then(res => {
-                if (res.data) {
-                    delete res.data.id
-                    res.data.status == 'passive' ?
-                        res.data.status = 'active' : res.data.status = 'passive'
-                    fetch(this.uri + task_id, {
-                        method: 'put',
-                        headers: {
-                            "Content-Type": "application/json",
-                            Accept: "application/json",
-                            userName: userName
-                        },
-                        headers: {
-                            "Content-Type": "application/json",
-                            Accept: "application/json",
-                        },
-                        body: JSON.stringify(
-                            res.data
-                        )
-                    })
-                }
-            })
+        })
             .then(
                 this.setState({
                     tasks: []

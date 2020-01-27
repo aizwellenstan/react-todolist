@@ -53,7 +53,7 @@ export class TodoList extends React.Component {
                     items_left++;
                 }
                 return (
-                    <li key={i} id={task_id} className={elem.status}>
+                    <li key={i} id={i} className={elem.status}>
                         <span className="id">{i + 1}</span>
                         <span className="title">{elem.text}</span>
                         <span className="type" onClick={this.done} />
