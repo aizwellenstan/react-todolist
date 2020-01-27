@@ -18,8 +18,8 @@ class TodoApp extends React.Component {
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        this.uri = 'http://127.0.0.1:3000/tasks/'
-        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        // this.uri = 'http://127.0.0.1:3000/tasks/'
+        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
@@ -137,7 +137,8 @@ class TodoApp extends React.Component {
     }
 
     removeTask(task_id) {
-        fetch(this.uri + task_id, {
+        let taskid = this.state.tasks[task_id].id
+        fetch(this.uri + taskid, {
             method: 'delete',
             headers: {
                 "Content-Type": "application/json",
