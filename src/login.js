@@ -5,16 +5,18 @@ export class Login extends React.Component {
     constructor() {
         super();
         this.doLogin = this.doLogin.bind(this);
+        this.doRegister = this.doRegister.bind(this);
+        this.state = ({
+            isRegister: false
+        })
     }
 
     doLogin() {
         const userName = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         if (userName !== '' && password !== '') {
-
-
-            // const uri = 'http://127.0.0.1:3000/login'
-            const uri = 'https://fivexruby-server.herokuapp.com/login'
+            const uri = 'http://127.0.0.1:3000/login'
+            // const uri = 'https://fivexruby-server.herokuapp.com/login'
             fetch(uri, {
                 method: 'post',
                 headers: {
@@ -46,14 +48,86 @@ export class Login extends React.Component {
                         }, 1000)
                     }
                 })
-
         } else {
             alert('ユーザーネームとパスワードを入力してください');
         }
+    }
 
+    doRegister() {
+        const userName = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const repeatPassword = document.getElementById('repeatPassword').value;
+        if (userName !== '' && password !== '') {
+            if (password === repeatPassword) {
+                const uri = 'http://127.0.0.1:3000/signup'
+                // const uri = 'https://fivexruby-server.herokuapp.com/signup'
+                fetch(uri, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'username': userName,
+                        'password': password
+                    })
+                })
+                    .then(
+                        response =>
+                            response.json().then(data => ({
+                                data: data,
+                                status: response.status
+                            }))
+                    )
+                    .then(res => {
+                        if (res.status === 409) {
+                            alert('エラー ユーザー名は既に存在します');
+                        } else {
+                            setTimeout(() => {
+                                this.setState({
+                                    isRegister: false
+                                })
+                            }, 1000)
+                        }
+                    })
+            } else {
+                alert('check password')
+            }
+        } else {
+            alert('ユーザーネームとパスワードを入力してください');
+        }
     }
 
     render() {
+        const isRegister = this.state.isRegister;
+        if (isRegister) {
+            return (
+                <div className="content">
+                    <div className="img">
+                        <a href="#" className="logo" alt="todo" title="todo" />
+                    </div>
+                    <div className="login type1">
+                        <div className="input-wrapper">
+                            <i className="icon username" />
+                            <input className="textbox" type="text" name="username" id="username" placeholder="username or email" />
+                        </div>
+                        <div className="input-wrapper">
+                            <i className="icon password" />
+                            <input className="textbox" type="password" name="password" id="password" placeholder="password" />
+                        </div>
+                        <div className="input-wrapper">
+                            <i className="icon password" />
+                            <input className="textbox" type="password" name="password" id="repeatPassword" placeholder="repeat password" />
+                        </div>
+                    </div>
+                    <div className="login-options">
+                        <button type="button" className="login-btn"
+                            onClick={(e) => this.setState({ isRegister: false })}>代わりにログイン</button>
+                        <button type="button" className="login-btn" onClick={this.doRegister}>登録</button>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="content">
                 <div className="img">
@@ -70,7 +144,9 @@ export class Login extends React.Component {
                     </div>
                 </div>
                 <div className="login-options">
-                    <button type="button" className="login-btn" onClick={this.doLogin}>LOGIN</button>
+                    <button type="button" className="login-btn"
+                        onClick={(e) => this.setState({ isRegister: true })}>登録</button>
+                    <button type="button" className="login-btn" onClick={this.doLogin}>ログイン</button>
                 </div>
             </div>
         )

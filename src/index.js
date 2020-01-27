@@ -8,10 +8,8 @@ import { TodoList } from './todoList';
 import { Login } from './login';
 
 class TodoApp extends React.Component {
-
     constructor() {
         super();
-
         this.state = {
             userSession: TodoApp.getUserSessionData(),
             tasks: [],
@@ -21,7 +19,8 @@ class TodoApp extends React.Component {
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
-        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        this.uri = 'http://127.0.0.1:3000/tasks/'
+        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
@@ -93,11 +92,6 @@ class TodoApp extends React.Component {
     }
 
     addTask(task) {
-        // let updatedList = this.state.tasks;
-        // updatedList.push({ text: task, status: 'passive' });
-        // this.setState({ tasks: updatedList });
-        // this.updateLocalStorage(updatedList);
-
         if (task !== '') {
             fetch(this.uri, {
                 method: 'post',
@@ -138,11 +132,6 @@ class TodoApp extends React.Component {
     }
 
     removeTask(task_id) {
-        // let updatedList = this.state.tasks;
-        // updatedList.splice(task_id.replace('task_', ''), 1);
-        // this.setState({ tasks: updatedList });
-        // this.updateLocalStorage(updatedList);
-
         fetch(this.uri + task_id, {
             method: 'delete',
             headers: {
@@ -161,16 +150,6 @@ class TodoApp extends React.Component {
     }
 
     doneTask(task_id) {
-        // let updatedList = this.state.tasks;
-        // let currentStatus = updatedList[task_id.replace('task_', '')].status;
-        // let newStatus = 'active';
-        // if (currentStatus === 'active') {
-        //     newStatus = 'passive';
-        // }
-        // updatedList[task_id.replace('task_', '')].status = newStatus;
-        // this.setState({ tasks: updatedList });
-        // this.updateLocalStorage(updatedList);
-
         function handleErrors(response) {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -233,12 +212,6 @@ class TodoApp extends React.Component {
                 alert('Fetch エラー : サーバー死んだ');
             });
     }
-
-    // updateLocalStorage(updatedList) {
-    //     var updatedList = JSON.stringify(updatedList);
-    //     localStorage.setItem('tasks', updatedList);
-    //     return true;
-    // }
 
     render() {
         let layout = (<Login doLogin={this.doLogin} />);
