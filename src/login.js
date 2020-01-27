@@ -4,20 +4,20 @@ import React from 'react';
 export class Login extends React.Component {
     constructor() {
         super();
-        this.doLogin = this.doLogin.bind(this);
-        this.doRegister = this.doRegister.bind(this);
         this.state = ({
             isRegister: false
         })
+        this.doLogin = this.doLogin.bind(this);
+        this.doRegister = this.doRegister.bind(this);
+        // this.uri = 'http://127.0.0.1:3000/'
+        this.uri = 'https://fivexruby-server.herokuapp.com/'
     }
 
     doLogin() {
         const userName = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         if (userName !== '' && password !== '') {
-            const uri = 'http://127.0.0.1:3000/login'
-            // const uri = 'https://fivexruby-server.herokuapp.com/login'
-            fetch(uri, {
+            fetch(this.uri + 'login', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,9 +59,7 @@ export class Login extends React.Component {
         const repeatPassword = document.getElementById('repeatPassword').value;
         if (userName !== '' && password !== '') {
             if (password === repeatPassword) {
-                const uri = 'http://127.0.0.1:3000/signup'
-                // const uri = 'https://fivexruby-server.herokuapp.com/signup'
-                fetch(uri, {
+                fetch(this.uri + 'signup', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json',
