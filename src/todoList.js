@@ -57,6 +57,8 @@ export class TodoList extends React.Component {
                         <span className="id">{i + 1}</span>
                         <span className="title">{elem.text}</span>
                         <span className="title">{`
+                            ${new Date(elem.end_time).getMonth() + 1}/
+                            ${new Date(elem.end_time).getDate()} 
                             ${new Date(elem.start_time).getHours()}:
                             ${new Date(elem.start_time).getMinutes() != '0' ?
                                 new Date(elem.start_time).getMinutes() : '00'
@@ -64,6 +66,8 @@ export class TodoList extends React.Component {
                         `}
                         </span>-
                         <span className="title">{`
+                            ${new Date(elem.end_time).getMonth() + 1}/
+                            ${new Date(elem.end_time).getDate()} 
                             ${new Date(elem.end_time).getHours()}:
                             ${new Date(elem.end_time).getMinutes() != '0' ?
                                 new Date(elem.end_time).getMinutes() : '00'
