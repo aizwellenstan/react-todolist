@@ -55,6 +55,21 @@ export class TodoList extends React.Component {
                 return (
                     <li key={i} id={i} className={elem.status}>
                         <span className="id">{i + 1}</span>
+                        <span className="title">
+                            <span className={
+                                `${elem.level == "0" ?
+                                    "green" : (
+                                        elem.level == '1' ?
+                                            "yellow" : "red")
+                                }`}>{
+                                    `${elem.level == "0" ?
+                                        "L" : (
+                                            elem.level == '1' ?
+                                                "M" : "H")
+                                    }`}
+
+                            </span>
+                        </span>
                         <span className="title">{elem.text}</span>
                         <span className="title">{`
                             ${new Date(elem.end_time).getMonth() + 1}/

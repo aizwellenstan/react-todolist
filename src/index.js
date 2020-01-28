@@ -23,15 +23,15 @@ class TodoApp extends React.Component {
         this.state = {
             userSession: TodoApp.getUserSessionData(),
             tasks: [],
-            sort: 'end_time ASC'
+            sort: 'end_time ASC',
         };
         this.addTask = this.addTask.bind(this);
         this.removeTask = this.removeTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.doLogin = this.doLogin.bind(this);
         this.sortTask = this.sortTask.bind(this);
-        // this.uri = 'http://127.0.0.1:3000/tasks/'
-        this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
+        this.uri = 'http://127.0.0.1:3000/tasks/'
+        // this.uri = 'https://fivexruby-server.herokuapp.com/tasks/'
     }
 
     componentWillMount() {
@@ -116,7 +116,7 @@ class TodoApp extends React.Component {
         localStorage.setItem('login', loginData);
     }
 
-    addTask(task, start, end) {
+    addTask(task, start, end, level) {
         if (task !== '') {
             let userName = this.state.userSession.userName
             fetch(this.uri, {
@@ -131,7 +131,8 @@ class TodoApp extends React.Component {
                         status: 'onhand',
                         username: userName,
                         start_time: start,
-                        end_time: end
+                        end_time: end,
+                        level: level
                     }
                 )
             })
@@ -241,6 +242,10 @@ class TodoApp extends React.Component {
                             TimeStart&nbsp;
                             <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('start_time ASC') }} icon={['fas', 'arrow-up']} />
                             <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('start_time DESC') }} icon={['fas', 'arrow-down']} />
+                            <br />
+                            レベル&nbsp;
+                            <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('level ASC') }} icon={['fas', 'arrow-up']} />
+                            <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { this.sortTask('level DESC') }} icon={['fas', 'arrow-down']} />
                         </div>
                     </center>
                     <TodoList myList={this.state.tasks} addTask={this.addTask} removeTask={this.removeTask}

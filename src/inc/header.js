@@ -25,7 +25,7 @@ export class Header extends React.Component {
         return (
             <div>
                 {layout}
-                <div className="img">
+                <div className="img" style={{ paddingTop: '130px' }}>
                     <a href="#" className="logo" alt="todo" title="todo" />
                 </div>
             </div>

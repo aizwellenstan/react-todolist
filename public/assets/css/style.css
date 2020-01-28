@@ -38,11 +38,18 @@ table {
 a {
   text-decoration: none; }
 
+.green {
+  color: green }
+.yellow {
+  color: orange }
+.red {
+  color: red}
+
 /*INPUT PLACEHOLDER HEAD*/
 input:not([type=checkbox]), button, textarea, select {
   display: block;
   margin: 0;
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   -moz-appearance: none;
   appearance: none;
   -webkit-box-shadow: none;
